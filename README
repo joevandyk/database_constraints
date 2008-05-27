@@ -1,0 +1,36 @@
+Simplified Constraints
+======================
+
+Because adding database constraints should be easy.
+
+Available constraints:
+
+* Email: Validates format of email
+* Login: Validates uniqueness of login names
+* Positive: Validates positiveness of a number
+
+**Note:** Only works on PostgreSQL. This is an initial work. And I've planned
+to add the common Rails validations `validates_format_of`, `validates_inclusion_of`, 
+`validates_lenght_of`, `validates_numericality_of`, `validates_size_of`, 
+`validates_uniqueness_of`.
+
+Example
+=======
+
+    class AddConstraintsOnModels < ActiveRecord::Migration
+
+      def self.up
+        add_email_check :users, :email
+        add_login_check :users, :login
+        add_positive_check :products, :price
+      end
+
+      def self.down
+        remove_email_check :users, :email
+        remove_login_check :users, :login
+        remove_positive_check :users, :price
+      end
+
+    end
+
+Copyright (c) 2008 Francesc Esplugas Marti, released under the MIT license
