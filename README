@@ -8,6 +8,8 @@ Available constraints:
 * Email: Validates format of email
 * Login: Validates uniqueness of login names
 * Positive: Validates positiveness of a number
+* Length: Validates length of a value
+* Uniqueness
 
 **Note:** Only works on PostgreSQL. This is an initial work. And I've planned
 to add the common Rails validations `validates_format_of`, `validates_inclusion_of`, 
@@ -23,12 +25,16 @@ Example
         add_email_check :users, :email
         add_login_check :users, :login
         add_positive_check :products, :price
+        add_length_check :users, :login, :is => 8
+        add_uniqueness_check :user, :login
       end
 
       def self.down
         remove_email_check :users, :email
         remove_login_check :users, :login
         remove_positive_check :users, :price
+        remove_length_check :users, :login, :is => 8
+        remove_uniqueness_check :user, :login
       end
 
     end
