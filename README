@@ -1,5 +1,4 @@
-Simplified Constraints
-======================
+== Simplified Constraints
 
 Because adding database constraints should be easy.
 
@@ -11,13 +10,12 @@ Available constraints:
 * Length: Validates length of a value
 * Uniqueness
 
-**Note:** Only works on PostgreSQL. This is an initial work. And I've planned
-to add the common Rails validations `validates_format_of`, `validates_inclusion_of`, 
-`validates_lenght_of`, `validates_numericality_of`, `validates_size_of`, 
-`validates_uniqueness_of`.
+<b>Note:</b> Only works on PostgreSQL. This is an initial work. And I've planned
+to add the common Rails validations +validates_format_of+, +validates_inclusion_of+, 
++validates_lenght_of+, +validates_numericality_of+, +validates_size_of+, 
++validates_uniqueness_of+.
 
-Example
-=======
+== Example
 
     class AddConstraintsOnModels < ActiveRecord::Migration
 
