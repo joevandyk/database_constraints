@@ -1,7 +1,7 @@
 module SimplifiedConstraints
 
   ##
-  # Format of email
+  # Format of email.
   #
   def add_email_check(table, column)
     execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~ E'^([-a-z0-9]+)@([-a-z0-9]+[.]+[a-z]{2,4})$'::text));"
@@ -49,12 +49,11 @@ module SimplifiedConstraints
   end
 
   ##
-  #  validates_length_of :first_name, :maximum => 30
-  #  validates_length_of :first_name, :minimum => 10
-  #  validates_length_of :user_name, :within => 6..20
-  #  validates_length_of :password, :is => 4
-  #  validates_length_of :fax, :in => 7..32, :allow_nil => true
-  #  validates_length_of :phone, :in => 7..32, :allow_blank => true
+  #  - :maximum => 30
+  #  - :minimum => 10
+  #  - :within => 6..20
+  #  - :is => 4
+  #  - :in => 7..32, :allow_nil => true
   #
   def add_length_check(table, column, options = { :is => 5 })
     execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (char_length(#{column}) = #{options[:is]});"
@@ -68,9 +67,8 @@ module SimplifiedConstraints
   end
 
   ##
-  # validates_inclusion_of :gender, :in => %w( m f )
-  # validates_inclusion_of :age, :in => 0..99
-  # validates_inclusion_of :format, :in => %w( jpg gif png )
+  # - :in => 0..99
+  # - :in => %w( jpg gif png )
   #
   def add_inclusion_check(table, column, inclusion)
     message_for_success
@@ -83,7 +81,7 @@ module SimplifiedConstraints
   end
 
   ##
-  # Uniqueness ...
+  # Uniqueness of row
   #
   def add_uniqueness_check(table, column)
     execute "ALTER TABLE #{table} ADD CONSTRAINT unique_#{column} UNIQUE (#{column});"
