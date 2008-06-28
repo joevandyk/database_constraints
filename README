@@ -37,4 +37,8 @@ to add the common Rails validations +validates_format_of+, +validates_inclusion_
 
     end
 
+== How to test?
+
+    $ createdb simplified_constraints
+
 Copyright (c) 2008 Francesc Esplugas Marti, released under the MIT license
