@@ -40,5 +40,6 @@ to add the common Rails validations +validates_format_of+, +validates_inclusion_
 == How to test?
 
     $ createdb simplified_constraints
+    $ rake
 
 Copyright (c) 2008 Francesc Esplugas Marti, released under the MIT license
