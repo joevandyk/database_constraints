@@ -126,14 +126,6 @@ module SimplifiedConstraints
 
 end
 
-# $adapter = ActiveRecord::Base.configurations[RAILS_ENV || 'development']['adapter']
-
-#case $adapter
-#  when 'mysql':      ActiveRecord::ConnectionAdapters::MysqlAdapter.send(:include, SimplifiedConstraints)
-#  when 'postgresql': ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.send(:include, SimplifiedConstraints)
-#  when 'sqlite3':    ActiveRecord::ConnectionAdapters::SQLite3Adapter.send(:include, SimplifiedConstraints)
-#end
-
 $adapter = (ENV['RAILS_ENV'] == 'test') ? 'postgresql' : ActiveRecord::Base.configurations[RAILS_ENV]['adapter']
 
 ActiveRecord::Migration.send(:include, SimplifiedConstraints::ActiveRecord::Migration)
