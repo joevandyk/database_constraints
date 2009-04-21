@@ -5,79 +5,44 @@ require 'rubygems'
 require 'active_record'
 require 'simplified_constraints'
 
-##
-# Stablish connection to PostgreSQL +simplified_constraints+
-#
-ActiveRecord::Base.establish_connection(:adapter => "postgresql", :database => "simplified_constraints")
+# Establish connection to PostgreSQL +simplified_constraints+ database.
+ActiveRecord::Base.establish_connection :adapter => 'postgresql', 
+                                        :database => 'simplified_constraints'
 
-##
-# Create +users+ table
-#
-class CreateUsers < ActiveRecord::Migration
+# Migrations.
+class CreateTables < ActiveRecord::Migration
 
   def self.up
+
     create_table :users do |t|
       t.string :name
       t.string :email
       t.string :login
     end
-  end
 
-  def self.down
-    drop_table :users
-  end
-
-end
-
-##
-# Create +posts+ table
-#
-class CreatePosts < ActiveRecord::Migration
-
-  def self.up
     create_table :posts do |t|
       t.string :title
       t.text :body
     end
-  end
 
-  def self.down
-    drop_table :posts
-  end
-
-end
-
-##
-# Create +products+ table
-#
-class CreateProducts < ActiveRecord::Migration
-
-  def self.up
     create_table :products do |t|
       t.string :name
       t.integer :price
     end
+
   end
 
   def self.down
+    drop_table :users
+    drop_table :posts
     drop_table :products
   end
 
 end
 
-##
-# Define User model
-#
+# Define models.
 class User < ActiveRecord::Base; end
-
-##
-# Define Post model
-#
 class Post < ActiveRecord::Base; end
-
-##
-# Define Product model
-#
 class Product < ActiveRecord::Base; end
 
 ##
@@ -86,28 +51,24 @@ class Product < ActiveRecord::Base; end
 class SimplifiedConstraintsTest < Test::Unit::TestCase
 
   def setup
-    CreateUsers.up
-    CreatePosts.up
-    CreateProducts.up
+    CreateTables.up
   end
 
   def teardown
-    CreateProducts.down
-    CreatePosts.down
-    CreateUsers.down
+    CreateTables.down
   end
 
   def test_should_create_a_user_and_a_post
     user = User.create
-    assert User.count, 1
+    assert_equal 1, User.count
     post = Post.create
-    assert Post.count, 1
+    assert_equal 1, Post.count
   end
 
   def test_should_add_email_check_to_users
     ActiveRecord::Migration.add_email_check :users, :email
     user = User.new
-    user.email = "invalid@email"
+    user.email = 'invalid@email'
     assert user.valid?
     begin
       user.save
@@ -115,10 +76,10 @@ class SimplifiedConstraintsTest < Test::Unit::TestCase
       assert_match /PGError/, error.message
       assert_match /violates check constraint "valid_email"/, error.message
     end
-    user.email = "valid@email.com"
+    user.email = 'valid@email.com'
     assert user.valid?
     user.save
-    assert User.count, 1
+    assert_equal 1, User.count
   end
 
   def test_should_add_login_check_to_users
@@ -135,7 +96,7 @@ class SimplifiedConstraintsTest < Test::Unit::TestCase
     user.login = "mylogin"
     assert user.valid?
     user.save
-    assert User.count, 1
+    assert_equal 1, User.count
   end
 
   def test_should_add_uniqueness_check
@@ -169,7 +130,7 @@ class SimplifiedConstraintsTest < Test::Unit::TestCase
       assert_match /violates check constraint "valid_price"/, error.message
     end
     Product.create(:price => 1)
-    assert Product.count, 1
+    assert_equal 1, Product.count
   end
 
 end
