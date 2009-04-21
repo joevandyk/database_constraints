@@ -1,4 +1,4 @@
-== Simplified Constraints
+= Simplified Constraints
 
 Because adding database constraints should be easy.
 
