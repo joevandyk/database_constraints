@@ -87,7 +87,7 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     ActiveRecord::Migration.add_login_check :users, :login
 
-    valid_logins = [ 'mylogin', '00000000' ]
+    valid_logins = [ 'mylogin', '00000000', 'login_with_underscore' ]
     valid_logins.each do |login|
       User.create :login => login
     end
