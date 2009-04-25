@@ -61,6 +61,8 @@ module DatabaseConstraints
         end
 
         ##
+        #  Not fully implemented.
+        #
         #  - :maximum => 30
         #  - :minimum => 10
         #  - :within => 6..20
@@ -79,6 +81,8 @@ module DatabaseConstraints
         end
 
         ##
+        #  Not implemented.
+        #
         # - :in => 0..99
         # - :in => %w( jpg gif png )
         #
