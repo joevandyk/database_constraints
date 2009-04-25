@@ -9,8 +9,27 @@ Available constraints:
 * Positive: Validates positiveness of a number
 * Length: Validates length of a value
 * Uniqueness
+* Foreign keys
 
 == Example
+
+Foreign keys:
+
+    class AddForeignKeysToModels < ActiveRecord::Migration
+
+      def self.up
+        # add_foreign_key :from_table, :from_column, :to_table
+        add_foreign_key :articles, :user_id, :users
+      end
+
+      def self.down
+        # remove_foreign_key :from_table, :from_column
+        remove_foreign_key :articles, :user_id
+      end
+
+    end
+
+Validations:
 
     class AddConstraintsToModels < ActiveRecord::Migration
 
