@@ -70,16 +70,22 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     end
     assert_equal valid_emails.size, User.count
 
-    %w( invalid@email invalid invalid.com invalid@DEMO.COM invalid@DEMO.com INVALID@example.com ).each do |email|
+    count = 0
+
+    invalid_emails = %w( invalid invalid.com invalid@DEMO.COM invalid@DEMO.com INVALID@example.com )
+    invalid_emails.each do |email|
 
       begin
         User.create :email => email
       rescue Exception => error
         assert_match /PGError/, error.message
         assert_match /violates check constraint "valid_email"/, error.message
+        count += 1
       end
 
     end
+
+    assert_equal invalid_emails.size, count
 
   end
 
@@ -87,22 +93,28 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     ActiveRecord::Migration.add_login_check :users, :login
 
-    valid_logins = [ 'abcd', 'ABCD', '1234567890' ]
+    valid_logins = [ 'abcd', '1234567890', 'ABCD' ]
     valid_logins.each do |login|
       User.create :login => login
     end
     assert_equal valid_logins.size, User.count
 
-    [ '-', '?', '+', '_' ].each do |login|
+    invalid_logins = [ '-', '?', '+' ]
+    count = 0
+
+    invalid_logins.each do |login|
 
       begin
         User.create :login => login
       rescue Exception => error
         assert_match /PGError/, error.message
         assert_match /violates check constraint "valid_login"/, error.message
+        count += 1
       end
 
     end
+
+    assert_equal invalid_logins.size, count
 
   end
 
