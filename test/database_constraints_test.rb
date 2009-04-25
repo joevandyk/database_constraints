@@ -1,63 +1,12 @@
-ENV['RAILS_ENV'] = 'test'
+require 'test/helper'
 
-require 'test/unit'
-require 'rubygems'
-require 'active_record'
-require 'database_constraints'
-
-# Establish connection to PostgreSQL +database_constraints+ database.
-ActiveRecord::Base.establish_connection :adapter => 'postgresql', 
-                                        :database => 'database_constraints'
-
-ActiveRecord::Migration.verbose = false
-
-# Migrations.
-class CreateTables < ActiveRecord::Migration
-
-  def self.up
-
-    create_table :users do |t|
-      t.string :name
-      t.string :email
-      t.string :login
-    end
-
-    create_table :posts do |t|
-      t.string :title
-      t.text :body
-    end
-
-    create_table :products do |t|
-      t.string :name
-      t.integer :price
-    end
-
-  end
-
-  def self.down
-    drop_table :users
-    drop_table :posts
-    drop_table :products
-  end
-
-end
-
-# Define models.
-class User < ActiveRecord::Base; end
-class Post < ActiveRecord::Base; end
-class Product < ActiveRecord::Base; end
-
-##
-# Here we go with the tests ...
-#
 class DatabaseConstraintsTest < Test::Unit::TestCase
 
   def setup
-    CreateTables.up
-  end
-
-  def teardown
-    CreateTables.down
+    Category.destroy_all
+    Post.destroy_all
+    Product.destroy_all
+    User.destroy_all
   end
 
   def test_should_add_email_check
@@ -89,6 +38,8 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
   end
 
+=begin
+
   def test_should_add_login_check
 
     ActiveRecord::Migration.add_login_check :users, :login
@@ -118,6 +69,10 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
   end
 
+=end
+
+=begin
+
   def test_should_add_uniqueness_check
 
     ActiveRecord::Migration.add_uniqueness_check :users, :login
@@ -132,6 +87,8 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     end
 
   end
+
+=end
 
   def test_should_add_length_check
 
