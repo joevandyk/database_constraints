@@ -19,13 +19,13 @@ module DatabaseConstraints
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~ E'^([-a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$'::text));"
           message_for_success
         rescue
-          message_for_warning "add_email_check"
+          message_for_warning 'add_email_check'
         end
 
         def remove_email_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_email_check"
+          message_for_warning 'remove_email_check'
         end
 
         ##
@@ -35,13 +35,13 @@ module DatabaseConstraints
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~* '^[a-z0-9]+$'::text));"
           message_for_success
         rescue
-          message_for_warning "add_login_check"
+          message_for_warning 'add_login_check'
         end
 
         def remove_login_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_login_check"
+          message_for_warning 'remove_login_check'
         end
 
         ##
@@ -51,13 +51,13 @@ module DatabaseConstraints
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (#{column} > 0);"
           message_for_success
         rescue
-          message_for_warning "add_positive_check"
+          message_for_warning 'add_positive_check'
         end
 
         def remove_positive_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_positive_check"
+          message_for_warning 'remove_positive_check'
         end
 
         ##
@@ -75,7 +75,7 @@ module DatabaseConstraints
         def remove_length_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_length_check"
+          message_for_warning 'remove_length_check'
         end
 
         ##
@@ -89,7 +89,7 @@ module DatabaseConstraints
         def remove_inclusion_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_inclusion_check"
+          message_for_warning 'remove_inclusion_check'
         end
 
         ##
@@ -103,7 +103,7 @@ module DatabaseConstraints
         def remove_uniqueness_check(table, column)
           drop_constraint(table, column)
         rescue
-          message_for_warning "remove_uniqueness_check"
+          message_for_warning 'remove_uniqueness_check'
         end
 
       private
@@ -112,11 +112,11 @@ module DatabaseConstraints
           execute "ALTER TABLE #{table} DROP CONSTRAINT valid_#{column};"
         end
 
-        def message_for_success(feedback = "Constraint")
+        def message_for_success(feedback = 'Constraint')
           puts "   [SUCCESS] #{feedback} added."
         end
 
-        def message_for_warning(feedback = "constraint_check")
+        def message_for_warning(feedback = 'constraint_check')
           puts "   [WARNING] #{feedback} is not available on this adapter."
         end
 
