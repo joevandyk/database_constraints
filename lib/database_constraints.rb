@@ -17,7 +17,6 @@ module DatabaseConstraints
         #
         def add_email_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~ E'^([-a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$'::text));"
-          message_for_success
         rescue
           message_for_warning 'add_email_check'
         end
@@ -33,7 +32,6 @@ module DatabaseConstraints
         #
         def add_login_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~* '^[a-z0-9]+$'::text));"
-          message_for_success
         rescue
           message_for_warning 'add_login_check'
         end
@@ -49,7 +47,6 @@ module DatabaseConstraints
         #
         def add_positive_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (#{column} > 0);"
-          message_for_success
         rescue
           message_for_warning 'add_positive_check'
         end
@@ -71,7 +68,6 @@ module DatabaseConstraints
         #
         def add_length_check(table, column, options = { :is => 5 })
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (char_length(#{column}) = #{options[:is]});"
-          message_for_success
         end
 
         def remove_length_check(table, column)
@@ -87,7 +83,6 @@ module DatabaseConstraints
         # - :in => %w( jpg gif png )
         #
         def add_inclusion_check(table, column, inclusion)
-          message_for_success
         end
 
         def remove_inclusion_check(table, column)
@@ -101,7 +96,6 @@ module DatabaseConstraints
         #
         def add_uniqueness_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT unique_#{column} UNIQUE (#{column});"
-          message_for_success
         end
 
         def remove_uniqueness_check(table, column)
@@ -114,10 +108,6 @@ module DatabaseConstraints
 
         def drop_constraint(table, column)
           execute "ALTER TABLE #{table} DROP CONSTRAINT valid_#{column};"
-        end
-
-        def message_for_success(feedback = 'Constraint')
-          puts "   [SUCCESS] #{feedback} added."
         end
 
         def message_for_warning(feedback = 'constraint_check')
