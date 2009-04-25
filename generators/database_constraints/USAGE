@@ -1,0 +1,22 @@
+NAME
+     database_constraints - creates a migration with suggested foreign keys.
+
+SYNOPSIS
+
+     database_constraints
+
+     Takes no arguments.
+
+     Creates a rails migration with suggested foreign keys for the current database
+     schema.
+
+DESCRIPTION
+
+     Creates a rails migration with suggested foreign keys for the current database
+     schema.
+
+EXAMPLE
+
+      ./script/generate database_constraints
+
+     This will generate migration XXXXXXXX_suggested_foreign_keys
