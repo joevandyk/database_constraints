@@ -1,4 +1,4 @@
-module SimplifiedConstraints
+module DatabaseConstraints
 
   module ActiveRecord
 
@@ -128,4 +128,4 @@ end
 
 $adapter = (ENV['RAILS_ENV'] == 'test') ? 'postgresql' : ActiveRecord::Base.configurations[RAILS_ENV]['adapter']
 
-ActiveRecord::Migration.send(:include, SimplifiedConstraints::ActiveRecord::Migration)
+ActiveRecord::Migration.send(:include, DatabaseConstraints::ActiveRecord::Migration)

@@ -3,11 +3,11 @@ ENV['RAILS_ENV'] = 'test'
 require 'test/unit'
 require 'rubygems'
 require 'active_record'
-require 'simplified_constraints'
+require 'database_constraints'
 
-# Establish connection to PostgreSQL +simplified_constraints+ database.
+# Establish connection to PostgreSQL +database_constraints+ database.
 ActiveRecord::Base.establish_connection :adapter => 'postgresql', 
-                                        :database => 'simplified_constraints'
+                                        :database => 'database_constraints'
 
 # Migrations.
 class CreateTables < ActiveRecord::Migration
@@ -48,7 +48,7 @@ class Product < ActiveRecord::Base; end
 ##
 # Here we go with the tests ...
 #
-class SimplifiedConstraintsTest < Test::Unit::TestCase
+class DatabaseConstraintsTest < Test::Unit::TestCase
 
   def setup
     CreateTables.up

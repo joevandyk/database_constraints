@@ -1,4 +1,4 @@
-= Simplified Constraints
+= Database Constraints
 
 Because adding database constraints should be easy.
 
@@ -17,7 +17,7 @@ to add the common Rails validations +validates_format_of+, +validates_inclusion_
 
 == Example
 
-    class AddConstraintsOnModels < ActiveRecord::Migration
+    class AddConstraintsToModels < ActiveRecord::Migration
 
       def self.up
         add_email_check :users, :email
@@ -39,7 +39,8 @@ to add the common Rails validations +validates_format_of+, +validates_inclusion_
 
 == How to test?
 
-Create a PostgreSQL database named <tt>simplified_constraints</tt> and run 
+Create a PostgreSQL database named <tt>database_constraints</tt> and run 
 <tt>rake</tt>.
 
-Copyright (c) 2008-2009 Francesc Esplugas, released under the MIT license
+Copyright (c) 2008-2009 Francesc Esplugas Marti, released under the MIT 
+license
