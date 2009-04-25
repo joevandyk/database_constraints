@@ -87,13 +87,13 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     ActiveRecord::Migration.add_login_check :users, :login
 
-    valid_logins = [ 'mylogin', '00000000', 'login_with_underscore' ]
+    valid_logins = [ 'abcd', 'ABCD', '1234567890' ]
     valid_logins.each do |login|
       User.create :login => login
     end
     assert_equal valid_logins.size, User.count
 
-    [ 'my-login?', '***', '*9874322*' ].each do |login|
+    [ '-', '?', '+', '_' ].each do |login|
 
       begin
         User.create :login => login
