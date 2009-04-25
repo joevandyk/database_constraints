@@ -87,14 +87,21 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     ActiveRecord::Migration.add_login_check :users, :login
 
-    User.create :login => "mylogin"
-    assert_equal 1, User.count
+    valid_logins = [ 'mylogin', '00000000' ]
+    valid_logins.each do |login|
+      User.create :login => login
+    end
+    assert_equal valid_logins.size, User.count
 
-    begin
-      User.create :login => 'my-login?'
-    rescue Exception => error
-      assert_match /PGError/, error.message
-      assert_match /violates check constraint "valid_login"/, error.message
+    [ 'my-login?', '***', '*9874322*' ].each do |login|
+
+      begin
+        User.create :login => login
+      rescue Exception => error
+        assert_match /PGError/, error.message
+        assert_match /violates check constraint "valid_login"/, error.message
+      end
+
     end
 
   end
