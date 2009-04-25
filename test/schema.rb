@@ -7,10 +7,9 @@ ActiveRecord::Schema.define do
   end
 
   create_table :posts, :force => true do |t|
-    t.string :title
     t.text :body
     t.integer :category_id
-    t.timestamps
+    t.string :title
   end
 
   create_table :products, :force => true do |t|
@@ -19,9 +18,9 @@ ActiveRecord::Schema.define do
   end
 
   create_table :users, :force => true do |t|
-    t.string :name
     t.string :email
     t.string :login
+    t.string :name
   end
 
 end
