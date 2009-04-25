@@ -36,9 +36,9 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     assert_equal invalid_emails.size, count
 
-  end
+    ActiveRecord::Migration.remove_email_check :users, :email
 
-=begin
+  end
 
   def test_should_add_login_check
 
@@ -50,7 +50,7 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     end
     assert_equal valid_logins.size, User.count
 
-    invalid_logins = [ '-', '?', '+' ]
+    invalid_logins = [ '?', '+' ]
     count = 0
 
     invalid_logins.each do |login|
@@ -67,11 +67,9 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
 
     assert_equal invalid_logins.size, count
 
+    ActiveRecord::Migration.remove_login_check :users, :login
+
   end
-
-=end
-
-=begin
 
   def test_should_add_uniqueness_check
 
@@ -86,9 +84,9 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
       assert_match /duplicate key value violates unique constraint "unique_login"/, error.message
     end
 
-  end
+    ActiveRecord::Migration.remove_uniqueness_check :users, :login
 
-=end
+  end
 
   def test_should_add_length_check
 
@@ -107,6 +105,8 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
       end
 
     end
+
+    ActiveRecord::Migration.remove_length_check :users, :login
 
   end
 
@@ -127,6 +127,8 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
       end
 
     end
+
+    ActiveRecord::Migration.remove_positive_check :products, :price
 
   end
 

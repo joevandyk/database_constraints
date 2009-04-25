@@ -16,7 +16,7 @@ module DatabaseConstraints
         #   [a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])
         #
         def add_email_check(table, column)
-          execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~ E'^([-a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$'::text));"
+          execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK ((#{column})::text ~ E'^([-a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$'::text);"
         rescue Exception => error
           message(error)
         end
@@ -31,7 +31,7 @@ module DatabaseConstraints
         # Login should always contain A-Z, a-z and 0-9 values.
         #
         def add_login_check(table, column)
-          execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~* '^[a-z0-9]+$'::text));"
+          execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK ((#{column})::text ~* '^[-a-z0-9]+$'::text);"
         rescue Exception => error
           message(error)
         end
@@ -104,15 +104,15 @@ module DatabaseConstraints
         end
 
         def remove_uniqueness_check(table, column)
-          drop_constraint(table, column)
+          drop_constraint(table, column, 'unique_')
         rescue Exception => error
           message(error)
         end
 
       private
 
-        def drop_constraint(table, column)
-          execute "ALTER TABLE #{table} DROP CONSTRAINT valid_#{column};"
+        def drop_constraint(table, column, prefix = 'valid_')
+          execute "ALTER TABLE #{table} DROP CONSTRAINT #{prefix}#{column};"
         end
 
         def message(error)
