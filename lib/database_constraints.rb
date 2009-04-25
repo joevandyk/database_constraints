@@ -17,14 +17,14 @@ module DatabaseConstraints
         #
         def add_email_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~ E'^([-a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$'::text));"
-        rescue
-          message_for_warning 'add_email_check'
+        rescue Exception => error
+          message(error)
         end
 
         def remove_email_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_email_check'
+        rescue Exception => error
+          message(error)
         end
 
         ##
@@ -32,14 +32,14 @@ module DatabaseConstraints
         #
         def add_login_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (((#{column})::text ~* '^[a-z0-9]+$'::text));"
-        rescue
-          message_for_warning 'add_login_check'
+        rescue Exception => error
+          message(error)
         end
 
         def remove_login_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_login_check'
+        rescue Exception => error
+          message(error)
         end
 
         ##
@@ -47,14 +47,14 @@ module DatabaseConstraints
         #
         def add_positive_check(table, column)
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (#{column} > 0);"
-        rescue
-          message_for_warning 'add_positive_check'
+        rescue Exception => error
+          message(error)
         end
 
         def remove_positive_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_positive_check'
+        rescue Exception => error
+          message(error)
         end
 
         ##
@@ -68,12 +68,14 @@ module DatabaseConstraints
         #
         def add_length_check(table, column, options = { :is => 5 })
           execute "ALTER TABLE #{table} ADD CONSTRAINT valid_#{column} CHECK (char_length(#{column}) = #{options[:is]});"
+        rescue Exception => error
+          message(error)
         end
 
         def remove_length_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_length_check'
+        rescue Exception => error
+          message(error)
         end
 
         ##
@@ -83,12 +85,15 @@ module DatabaseConstraints
         # - :in => %w( jpg gif png )
         #
         def add_inclusion_check(table, column, inclusion)
+          execute ""
+        rescue Exception => error
+          message(error)
         end
 
         def remove_inclusion_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_inclusion_check'
+        rescue Exception => error
+          message(error)
         end
 
         ##
@@ -100,8 +105,8 @@ module DatabaseConstraints
 
         def remove_uniqueness_check(table, column)
           drop_constraint(table, column)
-        rescue
-          message_for_warning 'remove_uniqueness_check'
+        rescue Exception => error
+          message(error)
         end
 
       private
@@ -110,8 +115,8 @@ module DatabaseConstraints
           execute "ALTER TABLE #{table} DROP CONSTRAINT valid_#{column};"
         end
 
-        def message_for_warning(feedback = 'constraint_check')
-          puts "   [WARNING] #{feedback} is not available on this adapter."
+        def message(error)
+          puts error.message
         end
 
       end
