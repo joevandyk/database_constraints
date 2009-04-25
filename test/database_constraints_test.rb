@@ -70,7 +70,7 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     end
     assert_equal valid_emails.size, User.count
 
-    %w( invalid@email invalid invalid.com ).each do |email|
+    %w( invalid@email invalid invalid.com invalid@DEMO.COM invalid@DEMO.com INVALID@example.com ).each do |email|
 
       begin
         User.create :email => email
