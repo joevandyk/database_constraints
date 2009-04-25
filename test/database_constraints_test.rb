@@ -9,6 +9,8 @@ require 'database_constraints'
 ActiveRecord::Base.establish_connection :adapter => 'postgresql', 
                                         :database => 'database_constraints'
 
+ActiveRecord::Migration.verbose = false
+
 # Migrations.
 class CreateTables < ActiveRecord::Migration
 
