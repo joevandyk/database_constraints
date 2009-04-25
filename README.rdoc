@@ -1,6 +1,6 @@
 = Database Constraints
 
-Because adding database constraints should be easy.
+Adding database constraints to PostgreSQL the Rails way.
 
 Available constraints:
 
@@ -9,11 +9,6 @@ Available constraints:
 * Positive: Validates positiveness of a number
 * Length: Validates length of a value
 * Uniqueness
-
-<b>Note:</b> Only works on PostgreSQL. This is an initial work. And I've planned
-to add the common Rails validations +validates_format_of+, +validates_inclusion_of+, 
-+validates_lenght_of+, +validates_numericality_of+, +validates_size_of+, 
-+validates_uniqueness_of+.
 
 == Example
 
