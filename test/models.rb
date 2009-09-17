@@ -11,3 +11,7 @@ end
 
 class User < ActiveRecord::Base
 end
+
+class PaypalOrder < ActiveRecord::Base
+  belongs_to :user, :foreign_key => :paypal_id
+end

@@ -26,11 +26,11 @@ module ForeignKeys
         #  order_id integer REFERENCES orders ON DELETE CASCADE,
         #
         #
-        def add_foreign_key(from_table, from_column, to_table)
+        def add_foreign_key(from_table, from_column, to_table, to_table_id = 'id')
           constraint_name = "fk_#{from_table}_#{from_column}"
           case $adapter
           when 'mysql', 'postgresql'
-            execute "ALTER TABLE #{from_table} ADD CONSTRAINT #{constraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (id);"
+            execute "ALTER TABLE #{from_table} ADD CONSTRAINT #{constraint_name} FOREIGN KEY (#{from_column}) REFERENCES #{to_table} (#{to_table_id});"
           else
             puts "   [NOTE] add_foreign_key is not available on this adapter."
           end

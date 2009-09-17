@@ -17,10 +17,16 @@ ActiveRecord::Schema.define do
     t.integer :price
   end
 
+  create_table :paypal_orders, :force => true do |t|
+    t.integer :paypal_id
+  end
+
   create_table :users, :force => true do |t|
     t.string :email
     t.string :login
     t.string :name
+    t.integer :paypal_id
   end
+
 
 end

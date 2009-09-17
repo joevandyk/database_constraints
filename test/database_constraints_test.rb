@@ -6,6 +6,7 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     Category.destroy_all
     Post.destroy_all
     Product.destroy_all
+    PaypalOrder.destroy_all
     User.destroy_all
   end
 

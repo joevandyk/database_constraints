@@ -6,7 +6,18 @@ class ForeignKeysTest < Test::Unit::TestCase
     Category.destroy_all
     Post.destroy_all
     Product.destroy_all
+    PaypalOrder.destroy_all
     User.destroy_all
+  end
+
+  def test_should_add_foreign_key_for_non_id_references
+    ActiveRecord::Migration.add_uniqueness_check :users, :paypal_id
+    ActiveRecord::Migration.add_foreign_key :paypal_orders, :paypal_id, :users, :paypal_id
+    assert_raise(ActiveRecord::StatementInvalid) { PaypalOrder.create!(:paypal_id => 'bad') }
+
+    paypal_id = 12345
+    u = User.create!(:paypal_id => paypal_id)
+    PaypalOrder.create!(:paypal_id => paypal_id)
   end
 
   def test_should_add_foreign_key_create_items_and_check_fk_constraints
