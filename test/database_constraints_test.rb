@@ -10,34 +10,30 @@ class DatabaseConstraintsTest < Test::Unit::TestCase
     User.destroy_all
   end
 
-  def test_should_add_email_check
-
-    ActiveRecord::Migration.add_email_check :users, :email
-
-    valid_emails = %w( john@example.com john@example.co.uk john@example.es )
-    valid_emails.each do |email|
+  VALID_EMAILS   = %w( john@example.com john@example.co.uk john@example.es joe123@gmail.com joevandyk+word@gmail.com joe-vandyk@gmail.com )
+  VALID_EMAILS.each do |email|
+    define_method "test_valid_email_#{email}" do
+      ActiveRecord::Migration.add_email_check :users, :email
       User.create :email => email
-    end
-    assert_equal valid_emails.size, User.count
+      ActiveRecord::Migration.remove_email_check :users, :email
+    end 
+  end
 
-    count = 0
-
-    invalid_emails = %w( invalid invalid.com invalid@DEMO.COM invalid@DEMO.com INVALID@example.com )
-    invalid_emails.each do |email|
+  INVALID_EMAILS = %w( invalid invalid.com invalid@DEMO.COM invalid@DEMO.com INVALID@example.com )
+  INVALID_EMAILS.each do |email|
+    define_method "test_invalid_email_#{email}" do
+      ActiveRecord::Migration.add_email_check :users, :email
 
       begin
         User.create :email => email
+        raise "#{email} is valid, and it should not be valid!"
       rescue Exception => error
         assert_match /PGError/, error.message
         assert_match /violates check constraint "valid_email"/, error.message
-        count += 1
       end
 
+      ActiveRecord::Migration.remove_email_check :users, :email
     end
-
-    assert_equal invalid_emails.size, count
-
-    ActiveRecord::Migration.remove_email_check :users, :email
 
   end
 
